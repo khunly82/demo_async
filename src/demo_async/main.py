@@ -25,7 +25,7 @@ async def get_capitale(country: str) -> CoroutineType[str]:
             ]    
         })
 
-        return result.json()
+        return result.json().get('choices')[0].get('message').get('content')
 
 async def main_async():
     # async with AsyncClient() as client:
