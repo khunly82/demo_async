@@ -3,6 +3,7 @@ import os
 from types import CoroutineType
 
 from dotenv import load_dotenv
+from httpx import AsyncClient
 
 load_dotenv()
 
@@ -10,9 +11,7 @@ API_KEY = os.getenv('API_KEY')
 URL = 'https://api.openai.com/v1/chat/completions'
 COUNTRIES = ['France', 'Vietnam', 'Ghana', 'Lettonie']
 
-from httpx import AsyncClient
-
-async def get_capitale(country: str) -> CoroutineType[str]:
+async def get_capitale_async(country: str) -> CoroutineType[str]:
     async with AsyncClient() as client:
         result = await client.post(URL, headers={
              'Content-Type': 'application/json',
@@ -40,10 +39,11 @@ async def main_async():
     #         ]
     #     })
 
-    result = await asyncio.gather(*[get_capitale(c) for c in COUNTRIES])
-    print(result)
-
     #     print(result.json())
+
+    # envoi de toutes les requetes en même temps 
+    result = await asyncio.gather(*[get_capitale_async(c) for c in COUNTRIES])
+    print(result)
 
 def main():
     asyncio.run(main_async())
