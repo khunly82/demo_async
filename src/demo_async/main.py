@@ -40,7 +40,7 @@ async def main_async():
 
     #     print(result.json())
 
-    # envoi de toutes les requetes en même temps 
+    # envoi de toutes les requêtes en même temps 
     result = await asyncio.gather(*[get_capitale_async(c) for c in COUNTRIES])
     print(result)
 
